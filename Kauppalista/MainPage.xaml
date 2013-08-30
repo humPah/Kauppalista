@@ -22,12 +22,50 @@
 
         <!--TitlePanel contains the name of the application and page title-->
         <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock x:Name="ApplicationTitle" Text="MY APPLICATION" Style="{StaticResource PhoneTextNormalStyle}"/>
-            <TextBlock x:Name="PageTitle" Text="page name" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+            <TextBlock x:Name="ApplicationTitle" Text="KAUPPALISTA" Style="{StaticResource PhoneTextNormalStyle}"/>
+            <!--
+            <TextBlock x:Name="PageTitle" Text="Kauppalista" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+            -->
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->
-        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0"></Grid>
+        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid x:Name="MiddlePanel">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid x:Name="AddingPanel" Grid.Row="0" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    
+                    <TextBox x:Name="TextBoxNew" Grid.Column="0"></TextBox>
+                    <Button x:Name="BtnLisaa" Grid.Column="1" Content="Lisää" Click="BtnLisaa_Click"></Button>
+                </Grid>
+                <StackPanel Grid.Row="1">
+                    <Button Content="Pikalisäys"></Button>
+                </StackPanel>
+            </Grid>
+            <Grid x:Name="PurchasePanel" Grid.Row="1">
+                <!-- Modified in code -->
+            </Grid>
+        </Grid>
     </Grid>
- 
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
+            <shell:ApplicationBarIconButton IconUri="/Assets/AppBar/appbar.delete.rest.png" Text="Tyhjennä" Click="ApplicationBarIconButtonTyhjenna_Click"/>
+            <shell:ApplicationBarIconButton IconUri="/Assets/AppBar/appbar.favs.rest.png" Text="Button 2"/>
+            <shell:ApplicationBar.MenuItems> 
+                <shell:ApplicationBarMenuItem Text="MenuItem 1"/>
+                <shell:ApplicationBarMenuItem Text="Info" Click="ApplicationBarMenuItemInfo_Click"/>
+            </shell:ApplicationBar.MenuItems>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
 </phone:PhoneApplicationPage>
+    
