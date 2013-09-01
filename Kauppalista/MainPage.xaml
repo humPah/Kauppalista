@@ -1,4 +1,5 @@
 ﻿<phone:PhoneApplicationPage 
+    
     x:Class="Kauppalista.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -12,8 +13,7 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     shell:SystemTray.IsVisible="True">
-
-    <!--LayoutRoot is the root grid where all page content is placed-->
+        <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -49,21 +49,28 @@
                     <Button x:Name="BtnLisaa" Grid.Column="1" Content="Lisää" Click="BtnLisaa_Click"></Button>
                 </Grid>
                 <StackPanel Grid.Row="1">
-                    <Button Content="Pikalisäys"></Button>
+                    <Button  x:Name="BtnQuickAdd" Click="BtnQuickAdd_Click" Content="Pikalisäys"></Button>
                 </StackPanel>
             </Grid>
             <Grid x:Name="PurchasePanel" Grid.Row="1">
-                <!-- Modified in code -->
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <!-- Modified in code 
+                <Button>
+                    <Image Source="/Assets/AppBar/appbar.delete.rest.png"></Image>
+                </Button>-->
             </Grid>
         </Grid>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
             <shell:ApplicationBarIconButton IconUri="/Assets/AppBar/appbar.delete.rest.png" Text="Tyhjennä" Click="ApplicationBarIconButtonTyhjenna_Click"/>
-            <shell:ApplicationBarIconButton IconUri="/Assets/AppBar/appbar.favs.rest.png" Text="Button 2"/>
+            <shell:ApplicationBarIconButton IconUri="/Assets/AppBar/appbar.folder.rest.png" Text="Button 2"/>
             <shell:ApplicationBar.MenuItems> 
                 <shell:ApplicationBarMenuItem Text="MenuItem 1"/>
-                <shell:ApplicationBarMenuItem Text="Info" Click="ApplicationBarMenuItemInfo_Click"/>
+                <shell:ApplicationBarMenuItem Text="Info" Click="ApplicationBarMenuItemInfo_Click" />
             </shell:ApplicationBar.MenuItems>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>

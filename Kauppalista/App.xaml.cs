@@ -17,8 +17,15 @@ namespace Kauppalista
 {
     public partial class App : Application
     {
+        private List<String> _ListQuickPurchases;
+        public List<String> ListQuickPurchases
+        {
+            get { return _ListQuickPurchases; }
+            private set;
+        }
+
         /// <summary>
-        /// Provides easy access to the root frame of the Phone Application.
+        /// Provides easy access to the root frame of the Phone Application
         /// </summary>
         /// <returns>The root frame of the Phone Application.</returns>
         public PhoneApplicationFrame RootFrame { get; private set; }

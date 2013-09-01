@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="Kauppalista.PurchaseCheckboxControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    d:DesignHeight="480" d:DesignWidth="480">
+    <UserControl.Resources>
+        <Style x:Key="DeleteButtonStyle" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Image x:Name="DeleteImage" Source="/Assets/AppBar/appbar.delete.rest.png">
+
+                            </Image>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Storyboard x:Name="TextAnimationTap">
+            <DoubleAnimation x:Name="DoubleAnimationRotation" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="LayoutRoot"
+                                            Duration="0:0:3" From="0.3" To="1" FillBehavior="Stop"  />
+        </Storyboard>
+    </UserControl.Resources>
+    
+    <Grid x:Name="LayoutRoot" Tap="LayoutRoot_Tap" Background="{StaticResource PhoneChromeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>                
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock x:Name="TextBlockContent" Grid.Column="0"/>            
+        <CheckBox x:Name="CheckBoxSelected" Grid.Column="1"/>
+        <Button x:Name="ButtonDelete" Grid.Column="2" Style="{StaticResource DeleteButtonStyle}"/>
+    </Grid>    
+</UserControl>

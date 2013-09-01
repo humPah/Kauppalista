@@ -42,8 +42,7 @@ namespace Kauppalista
                 }
             }
             TextBoxNew.ClearValue(TextBox.TextProperty);
-            listPurchases.Add(text);
-            listPurchases.Sort();
+            listPurchases.Add(text);            
             UpdatePurchasePanel();
         }
 
@@ -55,9 +54,11 @@ namespace Kauppalista
 
         private void UpdatePurchasePanel()
         {
+            listPurchases.Sort();
             PurchasePanel.Children.Clear();
             PurchasePanel.RowDefinitions.Clear();
             RowDefinition rowDef = null;
+
             int currentRow = 0;
             foreach (String purchase in listPurchases)
             {
@@ -65,15 +66,35 @@ namespace Kauppalista
                 rowDef.Height = GridLength.Auto;
                 PurchasePanel.RowDefinitions.Add(rowDef);
 
-                TextBlock block = new TextBlock();
-                block.Text = purchase;
-                System.Windows.Style style = (Style)Application.Current.Resources["PhoneTextTitle2Style"];
-                block.Style = style;                
-                Grid.SetRow(block, currentRow);
-                PurchasePanel.Children.Add(block);
+                PurchaseControl item = new PurchaseControl();                
+                item.Purchase = purchase;
+                item.TextBlockContent.Text = purchase;
+                item.DeletePurchase += item_DeletePurchase;
+                Grid.SetRow(item, currentRow);
+                PurchasePanel.Children.Add(item);
 
                 currentRow++;
             }
+        }
+
+        private void item_DeletePurchase(object sender, EventArgs e)
+        {
+            PurchaseControl purchaseSender = (PurchaseControl)sender;
+            String purchase = purchaseSender.Purchase;
+            foreach (String purchInList in listPurchases)
+            {
+                if (purchase.Equals(purchInList))
+                {
+                    listPurchases.Remove(purchInList);
+                    break;
+                }
+            }
+            UpdatePurchasePanel();
+        }
+
+        private void BtnQuickAdd_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/QuickAddPage.xaml", UriKind.Relative));
         }
     }
 }
