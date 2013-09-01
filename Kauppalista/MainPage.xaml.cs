@@ -15,7 +15,7 @@ namespace Kauppalista
 {
     public partial class MainPage : PhoneApplicationPage
     {
-        private List<String> listPurchases = new List<String>();
+
         // Constructor
         public MainPage()
         {
@@ -31,29 +31,38 @@ namespace Kauppalista
 
         private void BtnLisaa_Click(object sender, RoutedEventArgs e)
         {
+            List<String> listPurchases = (App.Current as App).ListPurchases;
+            List<String> listQuickPurchases = (App.Current as App).ListQuickPurchases;
             String text = TextBoxNew.Text;
             if(text.Equals("")) return;
-            foreach (String purchase in listPurchases)
+            if(listPurchases.Contains(text))
             {
-                if (text.Equals(purchase))
-                {
-                    MessageBox.Show("Ostos löytyy jo kauppalistalta");
-                    return;
-                }
+                MessageBox.Show("Ostos löytyy jo kauppalistalta");
+                return;
             }
-            TextBoxNew.ClearValue(TextBox.TextProperty);
-            listPurchases.Add(text);            
+            listPurchases.Add(text);    
+            if (!listQuickPurchases.Contains(text))
+            {
+                listQuickPurchases.Add(text);
+            }
+            
+
+            TextBoxNew.ClearValue(TextBox.TextProperty);         
+         
+            
             UpdatePurchasePanel();
         }
 
         private void ApplicationBarIconButtonTyhjenna_Click(object sender, EventArgs e)
         {
+            List<String> listPurchases = (App.Current as App).ListPurchases;
             listPurchases.Clear();
             UpdatePurchasePanel();
         }
 
         private void UpdatePurchasePanel()
         {
+            List<String> listPurchases = (App.Current as App).ListPurchases;
             listPurchases.Sort();
             PurchasePanel.Children.Clear();
             PurchasePanel.RowDefinitions.Clear();
@@ -79,6 +88,7 @@ namespace Kauppalista
 
         private void item_DeletePurchase(object sender, EventArgs e)
         {
+            List<String> listPurchases = (App.Current as App).ListPurchases;
             PurchaseControl purchaseSender = (PurchaseControl)sender;
             String purchase = purchaseSender.Purchase;
             foreach (String purchInList in listPurchases)
@@ -95,6 +105,12 @@ namespace Kauppalista
         private void BtnQuickAdd_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new Uri("/QuickAddPage.xaml", UriKind.Relative));
+        }
+
+        protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            UpdatePurchasePanel();
         }
     }
 }

@@ -37,8 +37,8 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-        <TextBlock x:Name="TextBlockContent" Grid.Column="0"/>            
+        <TextBlock x:Name="TextBlockContent"  Style="{StaticResource PhoneTextTitle2Style}" Grid.Column="0"/>            
         <CheckBox x:Name="CheckBoxSelected" Grid.Column="1"/>
-        <Button x:Name="ButtonDelete" Grid.Column="2" Style="{StaticResource DeleteButtonStyle}"/>
+        <Button x:Name="ButtonDelete" Grid.Column="2" Style="{StaticResource DeleteButtonStyle}" Click="ButtonDelete_Click"/>
     </Grid>    
 </UserControl>

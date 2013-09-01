@@ -30,7 +30,7 @@
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->
-        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+        <Grid x:Name="PurchasePanel" Grid.Row="1" Margin="12,0,12,0">
             
         </Grid>
         <Grid x:Name="ButtonPanel" Grid.Row="2">
@@ -39,8 +39,8 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Content="Lisää" Grid.Column="0"/>
-            <Button Content="Poista" Grid.Column="1"/>
+            <Button x:Name="BtnAdd" Content="Lisää" Grid.Column="0"/>
+            <Button x:Name="BtnDelete" Content="Poista" Grid.Column="1" Click="BtnDelete_Click"/>
             <Button x:Name="BtnCancel" Content="Peruuta" Grid.Column="2" Click="BtnCancel_Click"/>
         </Grid>
     </Grid>

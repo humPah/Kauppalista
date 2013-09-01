@@ -17,13 +17,17 @@ namespace Kauppalista
 {
     public partial class App : Application
     {
-        private List<String> _ListQuickPurchases;
+        private List<String> _ListQuickPurchases = new List<String>();
         public List<String> ListQuickPurchases
         {
             get { return _ListQuickPurchases; }
-            private set;
+            
         }
-
+        private List<String> _ListPurchases = new List<String>();
+        public List<String> ListPurchases
+        {
+            get { return _ListPurchases; }            
+        }
         /// <summary>
         /// Provides easy access to the root frame of the Phone Application
         /// </summary>

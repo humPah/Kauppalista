@@ -67,7 +67,7 @@
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
             <shell:ApplicationBarIconButton IconUri="/Assets/AppBar/appbar.delete.rest.png" Text="Tyhjennä" Click="ApplicationBarIconButtonTyhjenna_Click"/>
-            <shell:ApplicationBarIconButton IconUri="/Assets/AppBar/appbar.folder.rest.png" Text="Button 2"/>
+            <shell:ApplicationBarIconButton IconUri="/Assets/AppBar/appbar.folder.rest.png" Text="Button 2"/>            
             <shell:ApplicationBar.MenuItems> 
                 <shell:ApplicationBarMenuItem Text="MenuItem 1"/>
                 <shell:ApplicationBarMenuItem Text="Info" Click="ApplicationBarMenuItemInfo_Click" />
