@@ -31,16 +31,44 @@
 
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="PurchasePanel" Grid.Row="1" Margin="12,0,12,0">
-            
+            <ListBox x:Name="PurchaseListBox" ItemsSource="{Binding QuickPurchaseItems}" 
+                     Grid.Row="1" Margin="12, 0, 12, 0" Width="440">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Width="440">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <CheckBox
+                                IsChecked="{Binding IsChecked, Mode=TwoWay}"
+                                Grid.Column="0"   
+                            />                            
+                            <TextBlock
+                                Text="{Binding ItemName}"
+                                FontSize="{StaticResource PhoneFontSizeLarge}"
+                                Grid.Column="1"
+                                VerticalAlignment="Center"/>                            
+                            <Button
+                                Grid.Column="2"
+                                x:Name="deleteTaskButton"
+                                BorderThickness="0"                                
+                                Margin="0"
+                                Click="BtnDelete_Click">
+                                <Image Source="/Assets/AppBar/appbar.delete.rest.png"/>
+                            </Button>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
         </Grid>
         <Grid x:Name="ButtonPanel" Grid.Row="2">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>                
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="BtnAdd" Content="Lisää" Grid.Column="0"/>
-            <Button x:Name="BtnDelete" Content="Poista" Grid.Column="1" Click="BtnDelete_Click"/>
+            <Button x:Name="BtnAdd" Content="Lisää" Grid.Column="0" Click="BtnAdd_Click"/>            
             <Button x:Name="BtnCancel" Content="Peruuta" Grid.Column="2" Click="BtnCancel_Click"/>
         </Grid>
     </Grid>

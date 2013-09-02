@@ -6,13 +6,14 @@
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"    
     mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="768"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     shell:SystemTray.IsVisible="True">
+    
         <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <Grid.RowDefinitions>
@@ -21,7 +22,7 @@
         </Grid.RowDefinitions>
 
         <!--TitlePanel contains the name of the application and page title-->
-        <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
+        <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="0,0,0,0">
             <TextBlock x:Name="ApplicationTitle" Text="KAUPPALISTA" Style="{StaticResource PhoneTextNormalStyle}"/>
             <!--
             <TextBlock x:Name="PageTitle" Text="Kauppalista" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
@@ -29,10 +30,10 @@
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->
-        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="14,0,10,0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>                
             </Grid.RowDefinitions>
             <Grid x:Name="MiddlePanel">
                 <Grid.RowDefinitions>
@@ -43,9 +44,8 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                         <ColumnDefinition Width="Auto"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    
-                    <TextBox x:Name="TextBoxNew" Grid.Column="0"></TextBox>
+                    </Grid.ColumnDefinitions>                    
+                    <TextBox KeyDown="TextBoxNew_KeyDown" x:Name="TextBoxNew" Grid.Column="0"></TextBox>
                     <Button x:Name="BtnLisaa" Grid.Column="1" Content="Lisää" Click="BtnLisaa_Click"></Button>
                 </Grid>
                 <StackPanel Grid.Row="1">
@@ -53,23 +53,52 @@
                 </StackPanel>
             </Grid>
             <Grid x:Name="PurchasePanel" Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <ListBox x:Name="PurchaseListBox" ItemsSource="{Binding PurchaseItems}" 
+                     Grid.Row="0" Margin="12, 0, 12, 0" Width="440">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid HorizontalAlignment="Stretch" Width="440">
+                            <Grid.ColumnDefinitions>                                
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="100" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock
+                                Text="{Binding ItemName}"
+                                FontSize="{StaticResource PhoneFontSizeLarge}"
+                                Grid.Column="0"
+                                VerticalAlignment="Center"/>
+                            <Button
+                                Grid.Column="1"
+                                x:Name="deleteTaskButton"
+                                BorderThickness="0"                                
+                                Margin="0"
+                                Click="BtnDelete_Click">
+                                <Image Source="/Assets/AppBar/appbar.delete.rest.png"/>
+                            </Button>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <Grid Grid.Row="1" Margin="0,0,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <!-- Modified in code 
-                <Button>
-                    <Image Source="/Assets/AppBar/appbar.delete.rest.png"></Image>
-                </Button>-->
+                <TextBlock Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Text="Lisää pikalisäykseen"></TextBlock>
+                <CheckBox  Tap="CheckBoxQuickAdd_Tapped" IsChecked="True" x:Name="CheckBoxQuickAdd" Grid.Column="1"/>
+                </Grid>
             </Grid>
         </Grid>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
-            <shell:ApplicationBarIconButton IconUri="/Assets/AppBar/appbar.delete.rest.png" Text="Tyhjennä" Click="ApplicationBarIconButtonTyhjenna_Click"/>
-            <shell:ApplicationBarIconButton IconUri="/Assets/AppBar/appbar.folder.rest.png" Text="Button 2"/>            
+            <shell:ApplicationBarIconButton IconUri="/Assets/AppBar/appbar.delete.rest.png" Text="Tyhjennä" Click="ApplicationBarIconButtonTyhjenna_Click"/>                    
             <shell:ApplicationBar.MenuItems> 
-                <shell:ApplicationBarMenuItem Text="MenuItem 1"/>
+                <shell:ApplicationBarMenuItem Text="Ohje" Click="ApplicationBarMenuItemOhje_Click"/>
                 <shell:ApplicationBarMenuItem Text="Info" Click="ApplicationBarMenuItemInfo_Click" />
             </shell:ApplicationBar.MenuItems>
         </shell:ApplicationBar>

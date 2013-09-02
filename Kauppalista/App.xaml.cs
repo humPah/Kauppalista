@@ -68,6 +68,23 @@ namespace Kauppalista
                 PhoneApplicationService.Current.UserIdleDetectionMode = IdleDetectionMode.Disabled;
             }
 
+            // Create the database if it does not exist.
+            using (PurchaseDataContext db = new PurchaseDataContext(PurchaseDataContext.DBConnectionString))
+            {
+                if (db.DatabaseExists() == false)
+                {
+                    //Create the database
+                    db.CreateDatabase();
+                }
+            }
+
+            using (QuickPurchaseDataContext db = new QuickPurchaseDataContext(QuickPurchaseDataContext.DBConnectionString))
+            {
+                if (db.DatabaseExists() == false)
+                {
+                    db.CreateDatabase();
+                }
+            }
         }
 
         // Code to execute when the application is launching (eg, from Start)
