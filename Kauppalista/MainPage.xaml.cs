@@ -16,6 +16,7 @@ using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.IO.IsolatedStorage;
 
+
 namespace Kauppalista
 {
     public partial class MainPage : PhoneApplicationPage, INotifyPropertyChanged
@@ -41,6 +42,7 @@ namespace Kauppalista
             }
         }
 
+        // Data context for the local database
         private QuickPurchaseDataContext quickPurchaseDB;
 
         // Define an observable collection property that controls can bind to.
@@ -63,24 +65,14 @@ namespace Kauppalista
         
 
 
-        // Constructor
+        // Constructor, set DB-links
         public MainPage()
         {
             InitializeComponent();
             purchaseDB = new PurchaseDataContext(PurchaseDataContext.DBConnectionString);
             quickPurchaseDB = new QuickPurchaseDataContext(QuickPurchaseDataContext.DBConnectionString);
             this.DataContext = this;
-            IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
-            if(!settings.Contains("checkBoxQuickAdd"))
-            {
-                settings.Add("checkBoxQuickAdd", "checked");
-                settings.Save();
-            } else {
-                String checkBoxQuickAddIsChecked = IsolatedStorageSettings.ApplicationSettings["checkBoxQuickAdd"] as String;
-                if((checkBoxQuickAddIsChecked.Equals("checked")) == true) CheckBoxQuickAdd.IsChecked = true;
-                else CheckBoxQuickAdd.IsChecked = false;
-            }
-
+            SetSettings();
         }
 
         #region INotifyPropertyChanged Members
@@ -97,19 +89,57 @@ namespace Kauppalista
         }
         #endregion
 
+        /// <summary>
+        /// Set application settings for CheckBoxQuickAdd
+        /// </summary>
+        private void SetSettings()
+        {
+            IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
+            if (!settings.Contains("checkBoxQuickAdd"))
+            {
+                settings.Add("checkBoxQuickAdd", "checked");
+                settings.Save();
+            }
+            else
+            {
+                String checkBoxQuickAddIsChecked = IsolatedStorageSettings.ApplicationSettings["checkBoxQuickAdd"] as String;
+                if ((checkBoxQuickAddIsChecked.Equals("checked")) == true) CheckBoxQuickAdd.IsChecked = true;
+                else CheckBoxQuickAdd.IsChecked = false;
+            }
+        }
 
+
+        /// <summary>
+        /// Show application information
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">eventargs</param>
         private void ApplicationBarMenuItemInfo_Click(object sender, EventArgs e)
         {
             System.Windows.MessageBoxButton button = new MessageBoxButton();
             button = MessageBoxButton.OK;
-            MessageBox.Show("© Matias Partanen\nmatias.partanen@jyu.fi", "Kauppalista v. 0.1", button);
+            MessageBox.Show("© Matias Partanen\nmatias.partanen@jyu.fi", "Kauppalista v. 1.0", button);
         }
 
+
+
+        /// <summary>
+        /// Event for clicking BtnLisaa, add a new purchase
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">eventargs</param>
         private void BtnLisaa_Click(object sender, RoutedEventArgs e)
         {
             AddNewPurchase();
         }
 
+
+
+        /// <summary>
+        /// Check if a purchase by the same new is present, and if is, show a message and return.
+        /// Otherwise, add the purchase to dynamic list and database
+        /// If checkbox is checked, add the purchase to dynamic list and database for quickpurchases as well
+        /// </summary>
         private void AddNewPurchase()
         {            
             String newItemText = TextBoxNew.Text;
@@ -141,6 +171,13 @@ namespace Kauppalista
             }
         }
 
+
+
+        /// <summary>
+        /// Delete the purchase selected by datacontext
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">eventargs</param>
         private void BtnDelete_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as Button;
@@ -155,6 +192,12 @@ namespace Kauppalista
             }
         }
 
+
+        /// <summary>
+        /// Clear all purchases from dynamic list and database
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">eventargs</param>
         private void ApplicationBarIconButtonTyhjenna_Click(object sender, EventArgs e)
         {
             for (int i = 0; i < PurchaseItems.Count; i++)
@@ -166,16 +209,33 @@ namespace Kauppalista
             PurchaseItems.Clear();
         }
 
+
+        /// <summary>
+        /// Navigate to the HelpPage
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">eventargs</param>
         private void ApplicationBarMenuItemOhje_Click(object sender, EventArgs e)
         {
-
+            NavigationService.Navigate(new Uri("/HelpPage.xaml", UriKind.Relative));
         }
 
+
+        /// <summary>
+        /// Navigate to the QuickAddPage
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">eventargs</param>
         private void BtnQuickAdd_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new Uri("/QuickAddPage.xaml", UriKind.Relative));
         }
 
+
+        /// <summary>
+        /// Get the purchases and quickpurchases from the database
+        /// </summary>
+        /// <param name="e">eventargs</param>
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
@@ -192,6 +252,10 @@ namespace Kauppalista
         }
 
 
+        /// <summary>
+        /// Save changes to the database
+        /// </summary>
+        /// <param name="e">eventargs</param>
         protected override void OnNavigatedFrom(System.Windows.Navigation.NavigationEventArgs e)
         {
             // Call the base method.
@@ -202,6 +266,12 @@ namespace Kauppalista
             quickPurchaseDB.SubmitChanges();
         }
 
+
+        /// <summary>
+        /// Save the settings when CheckBoxQuickAdd is Tapped
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">eventargs</param>
         private void CheckBoxQuickAdd_Tapped(object sender, RoutedEventArgs e)
         {
             if (CheckBoxQuickAdd == null) return;
@@ -230,6 +300,12 @@ namespace Kauppalista
             settings.Save();
         }
 
+
+        /// <summary>
+        /// See if user pressed Enter in the TextBox, and if so, add the new purchase
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TextBoxNew_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
@@ -242,7 +318,7 @@ namespace Kauppalista
     }
 }
 
-//Database
+//Database classes
 [Table]
 public class PurchaseItem : INotifyPropertyChanged, INotifyPropertyChanging
 {

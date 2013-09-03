@@ -21,13 +21,20 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!--TitlePanel contains the name of the application and page title-->
+        <!--TitlePanel contains the name of the application and page title
         <StackPanel Grid.Row="0" Margin="12,17,0,28">
             <TextBlock Text="KAUPPALISTA" Style="{StaticResource PhoneTextNormalStyle}"/>
-            <!--
+            
             <TextBlock Text="page name" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
-            -->
+            
         </StackPanel>
+            -->
+        <Grid xmlns:adctl="clr-namespace:Microsoft.Advertising.Mobile.UI;assembly=Microsoft.Advertising.Mobile.UI" Grid.Row="0">
+            <adctl:AdControl x:Name="AdControl" Height="80" Width="480"                            
+                             ApplicationId="386f11c7-6b26-4b55-9342-5d5463e62e25" AdUnitId="141569"
+            />
+
+        </Grid>
 
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="PurchasePanel" Grid.Row="1" Margin="12,0,12,0">
@@ -68,7 +75,7 @@
                 <ColumnDefinition Width="*"/>                
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="BtnAdd" Content="Lisää" Grid.Column="0" Click="BtnAdd_Click"/>            
+            <Button x:Name="BtnAdd" Content="Lisää valitut" Grid.Column="0" Click="BtnAdd_Click"/>            
             <Button x:Name="BtnCancel" Content="Peruuta" Grid.Column="2" Click="BtnCancel_Click"/>
         </Grid>
     </Grid>

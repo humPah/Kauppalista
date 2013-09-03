@@ -18,26 +18,36 @@
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+           
 
         <!--TitlePanel contains the name of the application and page title-->
         <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="0,0,0,0">
-            <TextBlock x:Name="ApplicationTitle" Text="KAUPPALISTA" Style="{StaticResource PhoneTextNormalStyle}"/>
             <!--
+            <TextBlock x:Name="ApplicationTitle" Text="KAUPPALISTA" Style="{StaticResource PhoneTextNormalStyle}"/>
+            
             <TextBlock x:Name="PageTitle" Text="Kauppalista" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
             -->
         </StackPanel>
+        <Grid xmlns:adctl="clr-namespace:Microsoft.Advertising.Mobile.UI;assembly=Microsoft.Advertising.Mobile.UI" Grid.Row="1">
+            <adctl:AdControl x:Name="AdControl" Height="80" Width="480"                            
+                             ApplicationId="386f11c7-6b26-4b55-9342-5d5463e62e25" AdUnitId="141569"
+            />
+
+        </Grid>
 
         <!--ContentPanel - place additional content here-->
-        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="14,0,10,0">
+        <Grid x:Name="ContentPanel" Grid.Row="2" Margin="14,0,10,0">
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>                
             </Grid.RowDefinitions>
-            <Grid x:Name="MiddlePanel">
+            <Grid x:Name="MiddlePanel" Grid.Row="0">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>                    
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Grid x:Name="AddingPanel" Grid.Row="0" >
@@ -47,12 +57,19 @@
                     </Grid.ColumnDefinitions>                    
                     <TextBox KeyDown="TextBoxNew_KeyDown" x:Name="TextBoxNew" Grid.Column="0"></TextBox>
                     <Button x:Name="BtnLisaa" Grid.Column="1" Content="Lisää" Click="BtnLisaa_Click"></Button>
-                </Grid>
-                <StackPanel Grid.Row="1">
-                    <Button  x:Name="BtnQuickAdd" Click="BtnQuickAdd_Click" Content="Pikalisäys"></Button>
-                </StackPanel>
+                </Grid>                
             </Grid>
-            <Grid x:Name="PurchasePanel" Grid.Row="1">
+            <Grid Grid.Row="1" Margin="0,0,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <CheckBox Tap="CheckBoxQuickAdd_Tapped" IsChecked="True" x:Name="CheckBoxQuickAdd" Grid.Column="0"/>                
+                <TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Text="Lisää pikalisäykseen"></TextBlock>
+                <Button Grid.Column="2"  Width="107"  x:Name="BtnQuickAdd" Click="BtnQuickAdd_Click" Content="Pika "></Button>                
+            </Grid>
+            <Grid x:Name="PurchasePanel" Grid.Row="2">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="Auto"/>
@@ -82,15 +99,7 @@
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
-            </ListBox>
-            <Grid Grid.Row="1" Margin="0,0,0,0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                    <ColumnDefinition Width="Auto"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Text="Lisää pikalisäykseen"></TextBlock>
-                <CheckBox  Tap="CheckBoxQuickAdd_Tapped" IsChecked="True" x:Name="CheckBoxQuickAdd" Grid.Column="1"/>
-                </Grid>
+            </ListBox>                
             </Grid>
         </Grid>
     </Grid>

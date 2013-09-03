@@ -17,7 +17,9 @@ namespace Kauppalista
     public partial class QuickAddPage : PhoneApplicationPage, INotifyPropertyChanged
     {
 
-        //private List<PurchaseCheckboxControl> listPurchaseCheckBoxes = new List<PurchaseCheckboxControl>();
+        /// <summary>
+        /// Dynamic list and DB link of quick purchase items
+        /// </summary>
         private QuickPurchaseDataContext quickPurchaseDB;
         private PurchaseDataContext purchaseDB;
 
@@ -38,6 +40,9 @@ namespace Kauppalista
             }
         }
 
+        /// <summary>
+        /// Dynamic list and DB link of purchase items
+        /// </summary>
         private ObservableCollection<PurchaseItem> _purchaseItems;
         public ObservableCollection<PurchaseItem> PurchaseItems
         {
@@ -55,7 +60,9 @@ namespace Kauppalista
             }
         }
 
-
+        /// <summary>
+        /// Constructor and setting DB connections
+        /// </summary>
         public QuickAddPage()
         {
             InitializeComponent();
@@ -65,7 +72,6 @@ namespace Kauppalista
         }
         
         #region INotifyPropertyChanged Members
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         // Used to notify the app that a property has changed.
@@ -78,11 +84,12 @@ namespace Kauppalista
         }
         #endregion
 
-
-        private void item_DeletePurchase(object sender, EventArgs e)
-        {
-        }
-
+        
+        /// <summary>
+        /// Navigate back to MainPage
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">eventargs</param>
         private void BtnCancel_Click(object sender, RoutedEventArgs e)
         {
             if (NavigationService.CanGoBack)
@@ -96,12 +103,16 @@ namespace Kauppalista
         }
 
 
+        /// <summary>        
+        /// Define the query to gather all of the items, after execute the query and place the results into a collection
+        /// Sort quickpurchases by itemname
+        /// </summary>
+        /// <param name="e">eventargs</param>
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
         {
             var purchaseItemsInDB = from PurchaseItem purchase in purchaseDB.PurchaseItems                                    
                                     select purchase;
 
-            // Execute the query and place the results into a collection.
             PurchaseItems = new ObservableCollection<PurchaseItem>(purchaseItemsInDB);
 
 
@@ -112,28 +123,14 @@ namespace Kauppalista
 
             // Execute the query and place the results into a collection.
             QuickPurchaseItems = new ObservableCollection<QuickPurchaseItem>(quickPurchaseItemsInDB);
-
-            /*
-            ObservableCollection<QuickPurchaseItem> quickPurchaseToRemove = new ObservableCollection<QuickPurchaseItem>();
-            foreach (PurchaseItem item in PurchaseItems)
-            {
-                for (int i = 0; i < QuickPurchaseItems.Count; i++)
-                {
-                    QuickPurchaseItem quickItem = QuickPurchaseItems[i];
-                    if (quickItem.ItemName.Equals(item)) quickPurchaseToRemove.Add(quickItem);
-                }
-            }
-
-            foreach (QuickPurchaseItem quickItem in quickPurchaseToRemove)
-            {
-                QuickPurchaseItems.Remove(quickItem); 
-            }*/
-
-            // Call the base method.
             base.OnNavigatedTo(e);
         }
 
-
+        /// <summary>
+        /// Delete the selected object associated through datacontext
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">eventargs</param>
         private void BtnDelete_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as Button;
@@ -151,16 +148,15 @@ namespace Kauppalista
 
                 // Save changes to the database.
                 quickPurchaseDB.SubmitChanges();
-
-                // Put the focus back to the main page.
-                //this.Focus();
             }
         }
         
-
+        /// <summary>
+        /// Save changes to databases
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnNavigatedFrom(System.Windows.Navigation.NavigationEventArgs e)
         {
-            // Call the base method.
             base.OnNavigatedFrom(e);
 
             // Save changes to the database.
@@ -168,6 +164,13 @@ namespace Kauppalista
             purchaseDB.SubmitChanges();
         }
 
+
+        /// <summary>
+        /// Check the selected items user wants to add, after which check and remove the multiple entries, and add the rest to database
+        /// Once finished, navigate back to MainPage
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">eventargs</param>
         private void BtnAdd_Click(object sender, RoutedEventArgs e)
         {
             List<String> itemsToBeAdded = new List<String>();
@@ -178,25 +181,33 @@ namespace Kauppalista
                     itemsToBeAdded.Add(item.ItemName);                       
                 }
             }
-            /*FAULTY CODE TOBEDONE TODO
+            
+            List<String> currentItemNames = new List<String>();
+            foreach (PurchaseItem item in PurchaseItems)
+            {
+                currentItemNames.Add(item.ItemName);
+            }
+
+
             foreach (String itemString in itemsToBeAdded)
             {
-                foreach (PurchaseItem purchItem in PurchaseItems)
+                if (!currentItemNames.Contains(itemString))
                 {
-                    if(purchItem.ItemName.Equals(itemString)) break;
-                    else
-                    {
-                        PurchaseItem newItem = new PurchaseItem();
-                        newItem.ItemName = itemString;
-                        PurchaseItems.Add(newItem);
-                        purchaseDB.PurchaseItems.InsertOnSubmit(newItem);
-                    }
+                    PurchaseItem newItem = new PurchaseItem();
+                    newItem.ItemName = itemString;
+                    PurchaseItems.Add(newItem);
+                    purchaseDB.PurchaseItems.InsertOnSubmit(newItem);
                 }
-            }*/
+            }
+
+            NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.RelativeOrAbsolute)); 
         }
     }
 }
 
+/// <summary>
+/// Database-classes
+/// </summary>
 [Table]
 public class QuickPurchaseItem : INotifyPropertyChanged, INotifyPropertyChanging
 {
